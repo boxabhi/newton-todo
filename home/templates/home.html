@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css">
+</head>
+<body>
+
+
+    <div class="container mt-5 pt-5">
+        <div class="col-md-6  mx-auto">
+            <h2>Todo App in Django</h2>
+            <form method="post">
+                {% csrf_token %}
+                <div class="from-group">
+                    <label>Enter todo task</label>
+                    <input class="form-control" name="todo" placeholder="Enter todo task" type="text">
+                    <button type="submit" class="btn btn-success mt-2">Add todo</button>
+                </div>
+
+            </form>
+
+            <ul class="list-group mt-4">
+                {% for todo in todos %}
+                <li class="list-group-item">
+                    <input type="checkbox" onchange="toggleTodo('{{todo.id}}')" {% if todo.is_completed %} checked {% endif %}  >
+                    {{todo.todo_name}}
+                    
+                    <a href="{% url 'delete_todo' todo.id %}" class="btn btn-danger btn-sm ml-5">
+                        <i class="fas fa-trash-alt"></i>
+                    </a>
+
+                </li>
+                {% endfor %}
+               
+              </ul>
+        
+           
+          
+           
+           
+
+        </div>
+    </div>
+    
+
+
+
+    <script>
+        function toggleTodo(id){
+            fetch(`/update-todo/?id=${id}`)
+            window.location.reload()
+        }
+    </script>
+    
+
+
+</body>
+</html>
